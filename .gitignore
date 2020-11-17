@@ -18,7 +18,10 @@ __pycache__/
 *.sublime-project
 *.sublime-workspace
 
+temp/
 .temp/
+.temp
+temp/
 
 static/
 posts/static/

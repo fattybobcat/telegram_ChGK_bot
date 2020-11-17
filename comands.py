@@ -1,6 +1,12 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+import message
 
-
+__list_team = []
+class Team:
+    def __init__(self, name, capitan, chat):
+        self.__team_name = name,
+        self.__team_capitan = capitan,
+        self.__team_chat = chat
 
 
 # Обработка команд
@@ -28,6 +34,11 @@ def echo_file(update, context):
    # context.bot.getFile(file_id = update.message.document.file_id).download(out ='temp')
  #   telegram.File
 
+def registering_teams(update, context):
+    print('sss')
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Введите имя команды")
+
+
 def file_load(update, context):
     print('ghbdtn')
     print(update.message)
@@ -35,18 +46,18 @@ def file_load(update, context):
     #file = update.getFile(context.message.f)
 # Хендлеры
 #start_command_handler = CommandHandler('start', startCommand)
-start_handler = CommandHandler('start', start)
-help_hanlder = CommandHandler('help', help)
-echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
-file_handler = CommandHandler('loadbase', file_load)
-echo_file_handler = MessageHandler(Filters.document, echo_file)
-# Добавляем хендлеры в диспетчер
-dispatcher.add_handler(start_handler)
-dispatcher.add_handler(help_hanlder)
-dispatcher.add_handler(echo_handler)
-dispatcher.add_handler(file_handler)
-dispatcher.add_handler(echo_file_handler)
-# Начинаем поиск обновлений
-updater.start_polling(clean=True)
-# Останавливаем бота, если были нажаты Ctrl + C
-updater.idle()
+def initial_comand_handler(dispatcher):
+    start_handler = CommandHandler('start', start)
+    help_hanlder = CommandHandler('help', help)
+    echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
+    file_handler = CommandHandler('loadbase', file_load)
+    registering_teams_handler = CommandHandler('registeringteams', registering_teams)
+    echo_file_handler = MessageHandler(Filters.document, echo_file)
+    # Добавляем хендлеры в диспетчер
+    dispatcher.add_handler(start_handler)
+    dispatcher.add_handler(help_hanlder)
+    dispatcher.add_handler(echo_handler)
+    dispatcher.add_handler(file_handler)
+    dispatcher.add_handler(echo_file_handler)
+    dispatcher.add_handler(registering_teams_handler)
+    return dispatcher
